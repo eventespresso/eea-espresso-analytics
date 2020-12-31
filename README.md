@@ -1,1 +1,3 @@
-# eea-espresso-analytics
+# Espresso Analytic
+
+Integrates Event Espresso with analytics and commerce tracking services
