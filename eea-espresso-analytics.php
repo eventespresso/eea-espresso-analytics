@@ -1,8 +1,7 @@
 <?php
 
-if (! defined('ABSPATH')) {
-	exit('No direct script access allowed');
-}
+use EventEspresso\core\services\addon\AddonCollection;
+use EventEspresso\core\services\addon\api\v1\AddonApi;
 
 /*
   Plugin Name:  Espresso Analytics
@@ -29,11 +28,11 @@ if (! defined('ABSPATH')) {
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-add_filter(
-	'FHEE__EventEspresso_core_services_addon_AddonManager__initialize__addons',
-	function (array $addons): array
+add_action(
+	'AHEE__EventEspresso_core_services_addon_AddonManager__initialize__addons',
+	function (AddonCollection $addon_collection): void
 	{
-		$addon = new \EventEspresso\core\services\addon\api\v1\AddonApi(
+		$addon = new AddonApi(
 			'eea-espresso-analytics',
 			'EspressoAnalytics',
 			'EventEspresso\Analytics',
@@ -46,7 +45,6 @@ add_filter(
 		$addon->addEntityClassExtensions('EventEspresso\Analytics\entities\class_extensions');
 		$addon->addEntityModels('EventEspresso\Analytics\entities\models');
 		$addon->addEntityModelExtensions('EventEspresso\Analytics\entities\model_extensions');
-		$addons[] = $addon;
-		return $addons;
+		$addon_collection->addAddon($addon);
 	}
 );
